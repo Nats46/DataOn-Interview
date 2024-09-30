@@ -110,8 +110,7 @@ func main() {
 				case "exit":
 					fmt.Println("exiting...")
 					return
-				}
-				
+				}			
 			case "exit":
 				print("Exiting...")
 				return
