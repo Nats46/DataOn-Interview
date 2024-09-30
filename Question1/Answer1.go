@@ -91,7 +91,7 @@ func Read(db *sql.DB) {
     }
 }
 
-func Create(db *sql.DB) {
+func Create(db *sql.DB) bool {
     insertJenisKain := `
     INSERT INTO JenisKain (jenis_kain) VALUES ('STB'), ('NTB');
     `
@@ -113,15 +113,56 @@ func Create(db *sql.DB) {
     _, err := db.Exec(insertJenisKain)
     if err != nil {
         log.Fatal("Failed to insert into JenisKain:", err)
+		return false
     }
 
     _, err = db.Exec(insertNamaKain)
     if err != nil {
         log.Fatal("Failed to insert into NamaKain:", err)
+		return false
     }
 
     _, err = db.Exec(insertKualitas)
     if err != nil {
         log.Fatal("Failed to insert into Kualitas:", err)
+		return false
     }
+	return true
+}
+
+func InsertJenisKain(db *sql.DB,input string) bool{
+	insertJenisKain := `INSERT INTO JenisKain (jenis_kain) VALUES (?)`
+    
+    _, err := db.Exec(insertJenisKain, input)
+    if err != nil {
+        log.Fatal("Failed to insert into JenisKain:", err)
+		return false
+    }
+    
+    return true 
+}
+
+func InsertNamaKain(db *sql.DB,nama string,id int) bool{
+	insertNamaKain := `
+    INSERT INTO NamaKain (nama_kain, jenis_kain_id) VALUES (?);
+    `
+	_, err := db.Exec(insertNamaKain, nama,id)
+    if err != nil {
+        log.Fatal("Failed to insert into NamaKain:", err)
+		return false
+    }
+    
+    return true 
+}
+
+func InsertKualitasKain(db *sql.DB, kualitas int,namakualitas string, harga string, namaid int)bool{
+	insertKualitas := `
+    INSERT INTO Kualitas (kualitas, nama_kualitas, harga, nama_kain_id) 
+    VALUES (?)`
+	_, err := db.Exec(insertKualitas, kualitas,namakualitas,harga,namaid)
+	if err !=nil{
+		log.Fatal("Failed to insert into KualitasKain:", err)
+		return false
+	}
+	return true
 }
