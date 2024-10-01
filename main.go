@@ -126,7 +126,7 @@ func main() {
 			answer5.LenString()
 		case 0:
 			fmt.Println("Exiting...")
-			
+			return
 		default:
 			fmt.Println("Invalid question number. Please enter 1, 3, 4, 5, or 0 to exit.")
 		}
